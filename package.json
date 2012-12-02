@@ -1,5 +1,5 @@
 {
-    "name": "instagram-now",
+    "name": "Instagram-WRT-City",
     "description": "Display realtime photos of a vibrant city ",
     "version": "0.0.1",
     "private": true,
@@ -7,7 +7,6 @@
         "express": "3.x",
         "socket.io": "0.9.10",
         "instagram-node-lib": "*",
-        "underscore": "*",
         "connect": "*"
     },
     "engines": {
