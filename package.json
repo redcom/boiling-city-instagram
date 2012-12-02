@@ -1,0 +1,17 @@
+{
+    "name": "instagram-now",
+    "description": "Display realtime photos of a vibrant city ",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "express": "3.x",
+        "socket.io": "0.9.10",
+        "instagram-node-lib": "*",
+        "underscore": "*",
+        "connect": "*"
+    },
+    "engines": {
+        "node": "0.8.14",
+        "npm": "1.1.49"
+    }
+}
