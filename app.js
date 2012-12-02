@@ -32,8 +32,10 @@ io.configure(function() {
             callback(null, true);
         }
     });
+    // socket config for heroku
+    io.set("transports", ["xhr-polling"]); 
+    io.set("polling duration", 10); 
 });
-
 server.listen(process.env.PORT || 8080);
 
 
