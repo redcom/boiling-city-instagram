@@ -6,6 +6,8 @@ module.exports = function(app, config) {
         currentSubscriptions = [],
         createSubscriptions,
         unsubscribe_all,
+        sendCachedMedia,
+        startMediaQueue = [],
         errorCB,
         mediaQueue = [];
 
@@ -29,6 +31,13 @@ module.exports = function(app, config) {
     };
     unsubscribe_all = function() {
         getSubscriptions(true);
+    };
+    //unsubscribe_all();
+
+    sendCachedMedia = function() {
+        if (startMediaQueue.length>0) {
+            sendInitialPhotos(startMediaQueue);
+        }
     };
 
     createSubscriptions = function() {
@@ -133,6 +142,7 @@ module.exports = function(app, config) {
         }
     }
     function sendInitialPhotos(medias) {
+        startMediaQueue = medias;
         for(var i in medias) {
             data = medias[i];
             mediaInfoCompleted.call(null, data);
@@ -173,6 +183,7 @@ module.exports = function(app, config) {
 
     return {
         unsubscribe_all: unsubscribe_all,
-        createSubscriptions: createSubscriptions
+        createSubscriptions: createSubscriptions,
+        sendCachedMedia: sendCachedMedia
     }
 }

@@ -32,18 +32,18 @@ io.configure(function() {
             callback(null, true);
         }
     });
-    // socket config for heroku
-    io.set("transports", ["xhr-polling"]); 
-    io.set("polling duration", 10); 
+    io.set('transports', [ 'xhr-polling' , 'jsonp-polling' , 'htmlfile' ]);
+    io.set("polling duration", 10);
 });
-server.listen(process.env.PORT || 8080);
 
+server.listen(process.env.PORT || 8081);
+
+instagramLogic.createSubscriptions();
+//instagramLogic.unsubscribe_all();
 
 io.sockets.on('connection', function(socket) {
     config.socketio = socket;
-    if(Object.keys(io.connected).length === 1) {
-        instagramLogic.createSubscriptions();
-    }
+    instagramLogic.sendCachedMedia();
     socket.emit('init', { init: 'new Init' });
 
     socket.on('message', function(message) {
@@ -59,11 +59,6 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function() {
-        if (Object.keys(io.connected).length === 1 ) {
-            console.log('disconect');
-            instagramLogic.unsubscribe_all();
-            delete config.socketio;
-        }
         io.sockets.emit('pageview', {
             'connections': Object.keys(io.connected).length
         });
