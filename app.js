@@ -38,8 +38,8 @@ io.configure(function() {
 
 server.listen(process.env.PORT || 8081);
 
-//instagramLogic.createSubscriptions();
-instagramLogic.unsubscribe_all();
+instagramLogic.createSubscriptions();
+//instagramLogic.unsubscribe_all();
 
 io.sockets.on('connection', function(socket) {
     config.socketio = socket;
