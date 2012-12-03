@@ -32,7 +32,6 @@ module.exports = function(app, config) {
     unsubscribe_all = function() {
         getSubscriptions(true);
     };
-    //unsubscribe_all();
 
     sendCachedMedia = function() {
         if (startMediaQueue.length>0) {
@@ -71,6 +70,7 @@ module.exports = function(app, config) {
     };
 
     function emitNewPhoto(media) {
+        console.log('sending new photo', media);
         if (config.socketio && config.socketio.emit) {
             config.socketio.emit('add photo', media);
         }
@@ -83,6 +83,7 @@ module.exports = function(app, config) {
             radius: 5000,
             callback_url: config.callbackURL,
             complete: function(data) {
+                console.log('new subscription created');
                 currentSubscriptions.push(data);
             },
             error: errorCB,
@@ -159,6 +160,7 @@ module.exports = function(app, config) {
     });
 
     app.post('/instagram/cb', function(req, res) {
+            console.log('got a picture');
             var query = req.body;
             for (var i in query) {
                 var elem = query[i];
