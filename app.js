@@ -36,7 +36,7 @@ io.configure(function() {
     io.set("polling duration", 10);
 });
 
-server.listen(process.env.PORT || 8081);
+server.listen(process.env.PORT);
 
 io.sockets.on('connection', function(socket) {
     config.socketio = socket;
