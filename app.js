@@ -34,7 +34,7 @@ io.configure(function() {
             callback(null, true);
         }
     });
-    io.set('transports', ["xhr-polling", "flashsocket", "htmlfile", "xhr-polling", "jsonp-polling"]);
+    io.set('transports', ["xhr-polling", "htmlfile", "jsonp-polling"]);
     io.set("polling duration", 10);
 });
 
