@@ -169,7 +169,6 @@ module.exports = function(app, config) {
     });
 
     app.post('/instagram/cb', function(req, res) {
-            console.log('got a picture');
             var query = req.body;
             for (var i in query) {
                 var elem = query[i];
