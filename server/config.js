@@ -10,7 +10,7 @@ module.exports = function(app) {
         { lat: 53.4288, lng: -6.2766 }
     ];
     var tagSubscriptions = ['dublinedge'];
-    var callbackURL = 'http://boiling-coast-1282.herokuapp.com/instagram/cb';
+    var callbackURL = 'http://boiling-city-instagram.herokuapp.com/instagram/cb';
     var instagramConfig = {
         clientId: '84246d45a2f24951b661a717d130c57e',
         clientSecret: 'ac63a198d3a54e5194b3375a1fb21589'
