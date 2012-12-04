@@ -70,7 +70,6 @@ module.exports = function(app, config) {
     };
 
     function emitNewPhoto(media) {
-        console.log('sending new photo', media);
         if (config.socketio && config.socketio.emit) {
             config.socketio.emit('add photo', media);
         }
@@ -106,18 +105,23 @@ module.exports = function(app, config) {
 
     function getTagSubscriptionList(list) {
         var list=list[0] || list;
-        var media = {
-            id : list.id,
-            link : list.link,
-            url: list.images.thumbnail.url,
-            created: list.created_time,
-            username: list.user.username,
-            title: 'title'
-        };
+        var media = extractMediaInfo(list);
+        addToStartMediaQueue(media);
         emitNewPhoto(media);
     }
 
-    function mediaInfoCompleted(data) {
+    function addToStartMediaQueue(media) {
+        startMediaQueue.splice(-1);
+        startMediaQueue.push(media);
+    };
+
+    function mediaInfoCompletedCB(data) {
+        var media = extractMediaInfo(data);
+        addToStartMediaQueue(media);
+        emitNewPhoto(media);
+    }
+
+    function extractMediaInfo(data) {
         var media = {
             id: data.id,
             link: data.link,
@@ -126,7 +130,7 @@ module.exports = function(app, config) {
             username: data.user.username,
             title: data.caption? data.caption.text: ''
         };
-        emitNewPhoto(media);
+        return media;
     }
 
     function getMediaInfo() {
@@ -136,17 +140,22 @@ module.exports = function(app, config) {
             if(id) {
                 instagram.media.info({
                     media_id: 1*id,
-                    complete: mediaInfoCompleted,
+                    complete: mediaInfoCompletedCB,
                     error: errorCB
                 });
             }
         }
     }
+
     function sendInitialPhotos(medias) {
         startMediaQueue = medias;
-        for(var i in medias) {
+        var media,
+            data,
+            i;
+        for(i in medias) {
             data = medias[i];
-            mediaInfoCompleted.call(null, data);
+            media = extractMediaInfo(data);
+            emitNewPhoto(media);
         }
     }
     // application routing
