@@ -20,6 +20,8 @@ config = require('./server/config')(app);
 instagramLogic = require('./server/instagramLogic')(app, config);
 
 
+server.listen(process.env.PORT);
+
 io = io.listen(server);
 io.set('log level', 1); // reduce logging
 
@@ -36,7 +38,6 @@ io.configure(function() {
     io.set("polling duration", 10);
 });
 
-server.listen(process.env.PORT);
 
 io.sockets.on('connection', function(socket) {
     config.socketio = socket;
